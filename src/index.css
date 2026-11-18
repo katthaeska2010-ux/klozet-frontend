@@ -1,0 +1,219 @@
+/* ============================================================
+   KLOZET - ESTILO GLOBAL
+   Cores do protótipo original, com ajustes de contraste (WCAG AA).
+   ============================================================ */
+
+:root {
+  /* Cores base */
+  --bg: #f4e8db;
+  --card: #fffaf4;
+  --ink: #3b2412;
+  --mut: #6b4c36;        /* era #85644b (4.4:1) -> agora 6.4:1 */
+  --br: #7a4a25;
+  --br2: #8c5a2e;        /* era #a9713f (4.1:1) -> agora 5.8:1 com texto branco */
+  --bt: #ffffff;
+  --line: #b89a7e;       /* era #e2cfbb (1.2:1) -> agora 2.5:1 nas bordas de campos */
+  --line-soft: #e2cfbb;  /* só para divisórias decorativas */
+
+  /* Status */
+  --ok: #2f7d4f;
+  --warn: #8a5508;       /* era #a96a10 (4.2:1) -> agora 6:1 */
+  --bad: #b23a30;
+
+  /* Extras */
+  --glow: #f2d6b8;
+  --sh: 0 8px 24px rgba(90, 50, 20, 0.12);
+  --radius: 14px;
+  --focus: #e49f5a;      /* azul forte, aparece bem em qualquer fundo */
+}
+
+/* Modo escuro automático (segue o sistema do usuário) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c130c;
+    --card: #2a1d13;
+    --ink: #f4e8db;
+    --mut: #c4a68b;
+    --br: #d29a62;
+    --br2: #b9824c;
+    --bt: #1c130c;
+    --line: #8a6d52;
+    --line-soft: #46341f;
+    --ok: #6fcf97;
+    --warn: #e8b25a;
+    --bad: #f0877d;
+    --glow: #4a2f1c;
+    --sh: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --focus: #8fb4ff;
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Reset básico ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1rem;       /* 16px: nunca menos que isso no texto principal */
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4, .logo {
+  font-family: "Playfair Display", Georgia, serif;
+  line-height: 1.15;
+  margin: 0;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--br); }
+
+/* ---------- Acessibilidade ---------- */
+
+/* Foco visível para quem navega com teclado (Tab) */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Link "Pular para o conteúdo": aparece só quando recebe Tab */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--br);
+  color: var(--bt);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  z-index: 1000;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Texto só para leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Respeita quem desativou animações no sistema */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- Layout ---------- */
+.container { max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
+.row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.grid { display: grid; gap: 1rem; }
+.grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+.sub { color: var(--mut); margin: 0.25rem 0 1rem; }
+
+/* ---------- Cartão ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--sh);
+  padding: 1.25rem;
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;            /* alvo de toque mínimo recomendado */
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--br2);
+  border-radius: 10px;
+  background: var(--br2);
+  color: var(--bt);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s, background 0.15s;
+}
+.btn:hover { background: var(--br); border-color: var(--br); transform: translateY(-1px); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.btn.outline { background: transparent; color: var(--br); }
+.btn.outline:hover { background: var(--glow); }
+.btn.danger { background: transparent; color: var(--bad); border-color: var(--bad); }
+.btn.danger:hover { background: var(--bad); color: #fff; }
+.btn.small { min-height: 38px; padding: 0.35rem 0.8rem; font-size: 0.9rem; }
+.btn.block { width: 100%; }
+
+/* ---------- Formulários ---------- */
+label { display: block; font-weight: 700; margin: 0.9rem 0 0.3rem; }
+
+input, select, textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+input::placeholder { color: var(--mut); opacity: 1; }
+input[aria-invalid="true"] { border-color: var(--bad); }
+
+.field-error { color: var(--bad); font-size: 0.9rem; margin: 0.3rem 0 0; font-weight: 500; }
+.field-hint { color: var(--mut); font-size: 0.9rem; margin: 0.3rem 0 0; }
+
+/* ---------- Etiquetas de status ----------
+   Sempre texto + cor (nunca só cor), para daltônicos. */
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.tag.ativo, .tag.entregue, .tag.doada { color: var(--ok); }
+.tag.reservado, .tag.pendente, .tag.coleta { color: var(--warn); }
+.tag.esgotado, .tag.cancelado { color: var(--bad); }
+.tag.enviado, .tag.caminho { color: var(--br); }
+
+/* ---------- Mensagem de alerta (substitui alert()) ---------- */
+.toast {
+  position: fixed;
+  right: 1rem; bottom: 1rem;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  box-shadow: var(--sh);
+  z-index: 2000;
+}
+
+/* ---------- Imagem de peça (provisória) ---------- */
+.ph {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  border-radius: 12px;
+  background: hsl(var(--h, 30) 45% 85%);
+}
+
+/* ---------- Tabelas ---------- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.7rem 0.6rem; border-bottom: 1px solid var(--line-soft); }
+th { color: var(--mut); font-size: 0.9rem; }
